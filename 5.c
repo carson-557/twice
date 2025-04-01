@@ -126,34 +126,43 @@ void mergeLists(Node* LA, Node* LB) {
     if (pb) pc->next = pb;
 }
 
+void reverseList(Node* head) {
+    Node *prev = NULL, *current = head->next, *next = NULL;
+    
+    while (current != NULL) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    
+    head->next = prev;
+}
+
 int main() {
-    Node* LA = createList();
-    Node* LB = createList();
+    Node* head = createList();
+    int value;
     
-    printf("创建第一个有序链表LA(15个节点)：\n");
-    createOrderedList(LA, 15, 1);
-    printf("LA链表内容：");
-    printList(LA);
+    printf("请输入10个整数作为链表结点值：\n");
+    for (int i = 0; i < 10; i++) {
+        printf("请输入第%d个数：", i + 1);
+        scanf("%d", &value);
+        insertNode(head, value);
+    }
     
-    printf("\n创建第二个有序链表LB(9个节点)：\n");
-    createOrderedList(LB, 9, 2);
-    printf("LB链表内容：");
-    printList(LB);
+    printf("\n原始链表内容：");
+    printList(head);
     
-    printf("\n合并后的链表LC(与LA共用)：\n");
-    mergeLists(LA, LB);
-    printf("LC链表内容：");
-    printList(LA);
+    printf("链表逆置后：");
+    reverseList(head);
+    printList(head);
     
-    // 释放内存
-    Node* current = LA;
+    Node* current = head;
     while (current != NULL) {
         Node* temp = current;
         current = current->next;
         free(temp);
     }
-    
-    free(LB);
     
     return 0;
 }
